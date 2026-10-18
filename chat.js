@@ -33,7 +33,11 @@ module.exports = async (req, res) => {
         generationConfig: { maxOutputTokens: 800 }
       })
     });
-    if (!r.ok) return res.status(502).json({ error: "upstream " + r.status });
+    if (!r.ok) {
+      let msg = "";
+      try { msg = ((await r.json()).error || {}).message || ""; } catch (e) {}
+      return res.status(502).json({ error: "Gemini " + r.status + " " + msg.slice(0, 160) });
+    }
     const j = await r.json();
     const text = (j.candidates?.[0]?.content?.parts || []).map(p => p.text || "").join("");
     return res.status(200).json({ text: text || "…" });

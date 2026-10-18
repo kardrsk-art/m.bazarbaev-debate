@@ -188,8 +188,8 @@ async function go(){
  const out=add(T("think"),"ai");busy=true;
  try{
   const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:MODE_IDS[mode],lang:lang,messages:hist})});
-  if(!r.ok)throw 0;const j=await r.json();out.textContent=j.text;hist.push({role:"assistant",content:j.text});
- }catch(e){out.textContent=T("err");hist.pop()}
+  if(!r.ok){let d="";try{d=(await r.json()).error||""}catch(x){}throw {d:"HTTP "+r.status+(d?" · "+d:"")}}const j=await r.json();out.textContent=j.text;hist.push({role:"assistant",content:j.text});
+ }catch(e){out.textContent=T("err")+(e&&e.d?"\n("+e.d+")":"");hist.pop()}
  busy=false;
 }
 $("send").onclick=go;$("in").addEventListener("keydown",e=>{if(e.key==="Enter")go()});
