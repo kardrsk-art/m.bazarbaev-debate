@@ -1,22 +1,10 @@
-КАК ЗАПУСТИТЬ САЙТ С ЖИВЫМ ИИ-ТРЕНЕРОМ (Мүсекең) — для всех, без аккаунтов
+ОБНОВЛЕНИЕ САЙТА НА VERCEL (GitHub)
 
-1. Ключ Gemini
-   - Откройте aistudio.google.com, войдите в Google, нажмите "Get API key" и создайте ключ.
-   - Ключ никому не показывайте и не вставляйте в index.html.
-
-2. Выложите папку на GitHub
-   - github.com -> New repository -> "Add file" -> "Upload files".
-   - Загрузите index.html и папку api (внутри chat.js). Нажмите Commit.
-
-3. Подключите Vercel
-   - vercel.com -> Add New -> Project -> выберите этот репозиторий -> Deploy.
-   - Откройте проект -> Settings -> Environment Variables.
-   - Добавьте: GEMINI_API_KEY = ваш ключ.
-   - (по желанию) GEMINI_MODEL = точное имя модели из AI Studio, если стандартная не работает.
-   - Затем Deployments -> Redeploy.
-
-4. Готово: у проекта будет ссылка вида название.vercel.app. Её можно давать всем.
-
-Заметки:
-- Регистрация на этой версии не сохраняет заявки в базу: ученик отправляет заявку в Telegram. Для настоящей базы нужен отдельный шаг (Google Таблица или Supabase).
-- В Google AI Studio проверьте лимиты бесплатного уровня, чтобы тренер не отключился при большом числе учеников.
+1. Замените в репозитории файлы: index.html и api/chat.js (Add file -> Upload files, затем Commit).
+2. Vercel сам пересоберёт сайт за ~1 минуту.
+3. ВАЖНО про ключ Gemini:
+   - Ключ нельзя писать в index.html: его увидят все. Он хранится только в Vercel.
+   - Vercel -> Settings -> Environment Variables -> GEMINI_API_KEY = ваш НОВЫЙ ключ.
+   - Если вы отправляли ключ в чат или в открытый код, удалите его на aistudio.google.com (API keys) и создайте новый.
+   - Если модель не отвечает, добавьте GEMINI_MODEL = точное имя модели из AI Studio (gemini-1.5-flash уже может быть отключена).
+   - После изменения переменных нажмите Deployments -> Redeploy.
